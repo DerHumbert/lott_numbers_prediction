@@ -2,18 +2,11 @@ import requests
 import bs4
 import re 
 
-
-def filter_links(tag):
-	if isinstance(tag, str):
-		return tag.endswith('csv')
-
 def get_links(links):
 	urls = []
 	for link in links:
 		urls.append(link.get('href'))
 	return urls
-
-
 
 def download_file(link):
 	file = requests.get(link, verify=False)
@@ -26,8 +19,6 @@ def download_file(link):
 
 if __name__ == "__main__":
     WEB_ROOT = 'https://www.loterianacional.gob.mx'
-    write_path = '~/data/'
-
     r = requests.get('https://www.loterianacional.gob.mx/Melate/Resultados', verify=False)
 
     soup = bs4.BeautifulSoup(r.content, 'html.parser')
@@ -36,7 +27,6 @@ if __name__ == "__main__":
 
     q = re.compile(".*/Home/Historicos")
     hist = list(filter(q.match,urls))
-    print(hist)
 
     url = hist[0][5:]
     url = WEB_ROOT + url 
